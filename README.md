@@ -36,3 +36,10 @@ merge(target, source, {
 At the top level, merging `null` with the default `delete` strategy returns `undefined` — there is no key to remove, so "nothing" is the honest result. If you need a defined value, use `nullStrategy: 'keep'` or guard the call.
 
 The target and source are not mutated. Merged arrays are copies. Class instances are passed through by reference, not cloned.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
